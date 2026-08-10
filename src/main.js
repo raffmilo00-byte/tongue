@@ -1,60 +1,51 @@
-import './style.css'
-import javascriptLogo from './assets/javascript.svg'
-import viteLogo from './assets/vite.svg'
-import heroImg from './assets/hero.png'
-import { setupCounter } from './counter.js'
+import './app.css';
+import { HackerNewsRepository } from './api/hackerNewsRepository.js';
+import { NewsService } from './services/newsService.js';
 
-document.querySelector('#app').innerHTML = `
-<section id="center">
-  <div class="hero">
-    <img src="${heroImg}" class="base" width="170" height="179">
-    <img src="${javascriptLogo}" class="framework" alt="JavaScript logo"/>
-    <img src="${viteLogo}" class="vite" alt="Vite logo" />
-  </div>
-  <div>
-    <h1>Get started</h1>
-    <p>Edit <code>src/main.js</code> and save to test <code>HMR</code></p>
-  </div>
-  <button id="counter" type="button" class="counter"></button>
-</section>
+const app = document.getElementById('app') || document.body;
 
-<div class="ticks"></div>
+async function bootstrap() {
+  app.innerHTML = '<p>Caricamento ID...</p>';
+  try {
+    const ids = await HackerNewsRepository.fetchNewStoriesIds();
+    NewsService.setAllIds(ids);
+    renderInitial();
+  } catch (err) {
+    app.innerHTML = '<p>Errore nel caricamento degli ID. Riprova più tardi.</p>';
+    console.error(err);
+  }
+}
 
-<section id="next-steps">
-  <div id="docs">
-    <svg class="icon" role="presentation" aria-hidden="true"><use href="/icons.svg#documentation-icon"></use></svg>
-    <h2>Documentation</h2>
-    <p>Your questions, answered</p>
-    <ul>
-      <li>
-        <a href="https://vite.dev/" target="_blank">
-          <img class="logo" src="${viteLogo}" alt="" />
-          Explore Vite
-        </a>
-      </li>
-      <li>
-        <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript" target="_blank">
-          <img class="button-icon" src="${javascriptLogo}" alt="">
-          Learn more
-        </a>
-      </li>
-    </ul>
-  </div>
-  <div id="social">
-    <svg class="icon" role="presentation" aria-hidden="true"><use href="/icons.svg#social-icon"></use></svg>
-    <h2>Connect with us</h2>
-    <p>Join the Vite community</p>
-    <ul>
-      <li><a href="https://github.com/vitejs/vite" target="_blank"><svg class="button-icon" role="presentation" aria-hidden="true"><use href="/icons.svg#github-icon"></use></svg>GitHub</a></li>
-      <li><a href="https://chat.vite.dev/" target="_blank"><svg class="button-icon" role="presentation" aria-hidden="true"><use href="/icons.svg#discord-icon"></use></svg>Discord</a></li>
-      <li><a href="https://x.com/vite_js" target="_blank"><svg class="button-icon" role="presentation" aria-hidden="true"><use href="/icons.svg#x-icon"></use></svg>X.com</a></li>
-      <li><a href="https://bsky.app/profile/vite.dev" target="_blank"><svg class="button-icon" role="presentation" aria-hidden="true"><use href="/icons.svg#bluesky-icon"></use></svg>Bluesky</a></li>
-    </ul>
-  </div>
-</section>
+let currentIndex = 0;
+const pageSize = 10;
 
-<div class="ticks"></div>
-<section id="spacer"></section>
-`
+async function renderInitial() {
+  app.innerHTML = `
+    <h1>Tongue · Ultime news</h1>
+    <div id="list"></div>
+    <div style="margin-top:12px">
+      <button id="loadMore">Load more</button>
+    </div>
+  `;
+  document.getElementById('loadMore').addEventListener('click', loadNext);
+  await loadNext();
+}
 
-setupCounter(document.querySelector('#counter'))
+async function loadNext() {
+  const list = document.getElementById('list');
+  const items = await NewsService.fetchPageDetails(currentIndex, pageSize);
+  items.forEach(it => {
+    const el = document.createElement('div');
+    el.className = 'news-item';
+    el.innerHTML = `
+      <a href="\${it.url || '#'}" target="_blank" rel="noopener noreferrer">\${it.title || 'No title'}</a>
+      <div class="meta">\${new Date((it.time||0)*1000).toLocaleString()}</div>
+    `;
+    list.appendChild(el);
+  });
+  currentIndex += pageSize;
+  const loadBtn = document.getElementById('loadMore');
+  if ((NewsService.allIds || []).length <= currentIndex) loadBtn.disabled = true;
+}
+
+bootstrap();
