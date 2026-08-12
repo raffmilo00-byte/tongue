@@ -1,3 +1,4 @@
+import './app.css';
 import { HackerNewsRepository } from './api/hackerNewsRepository.js';
 import { NewsService } from './services/newsService.js';
 
@@ -37,8 +38,8 @@ async function loadNext() {
     const el = document.createElement('div');
     el.className = 'news-item';
     el.innerHTML = `
-      <a href="\${it.url || '#'}" target="_blank" rel="noopener noreferrer">\${it.title || 'No title'}</a>
-      <div class="meta">\${new Date((it.time||0)*1000).toLocaleString()}</div>
+      <a href="${it.url || '#'}" target="_blank" rel="noopener noreferrer">${it.title || 'No title'}</a>
+      <div class="meta">${new Date((it.time||0)*1000).toLocaleString()}</div>
     `;
     list.appendChild(el);
   });
