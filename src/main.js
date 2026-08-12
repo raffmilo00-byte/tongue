@@ -1,4 +1,3 @@
-import './app.css';
 import { HackerNewsRepository } from './api/hackerNewsRepository.js';
 import { NewsService } from './services/newsService.js';
 
