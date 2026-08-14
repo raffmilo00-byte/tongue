@@ -1,6 +1,6 @@
 import './app.css';
 import { HackerNewsRepository } from './api/hackerNewsRepository.js';
-import { NewsService } from './services/newsService.js';
+import { NewsService } from './assets/services/newsService.js';
 
 const app = document.getElementById('app') || document.body;
 
