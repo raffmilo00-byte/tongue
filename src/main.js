@@ -9,7 +9,7 @@ function formatDate(unix) {
 }
 
 function renderItems(items) {
-  const app = document.getElementById("app");
+  const list = document.getElementById("list");
 
   items.forEach(item => {
     const div = document.createElement("div");
@@ -18,11 +18,11 @@ function renderItems(items) {
     div.innerHTML = `
       <h3>${item.title || "Titolo non disponibile"}</h3>
       <p>Pubblicato: ${formatDate(item.time)}</p>
-      <a href="${item.url || "#"}" target="_blank">Apri</a>
+      <a href="${item.url || "#"}" target="_blank">Apri la fonte</a>
       <hr>
     `;
 
-    app.appendChild(div);
+    list.appendChild(div);
   });
 }
 
@@ -33,6 +33,7 @@ async function loadNext() {
 
   if (currentIndex >= NewsService.allIds.length) {
     document.getElementById("loadMore").disabled = true;
+    document.getElementById("loadMore").innerText = "No more news";
   }
 }
 
@@ -41,7 +42,7 @@ async function init() {
     const ids = await HackerNewsRepository.fetchNewStoriesIds();
     NewsService.setAllIds(ids);
 
-    // UI iniziale
+    // Costruzione UI iniziale
     document.getElementById("app").innerHTML = `
       <h1>Ultime News</h1>
       <div id="list"></div>
