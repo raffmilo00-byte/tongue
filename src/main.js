@@ -1,7 +1,6 @@
 import '../app.css';
 import { HackerNewsRepository } from './api/hackerNewsRepository.js';
-import { NewsService } from './assets/services/newsService.js';
-
+import './services/newsService.js';
 const app = document.getElementById('app') || document.body;
 
 async function bootstrap() {

@@ -1,5 +1,3 @@
-import axios from 'axios';
-
 export const HackerNewsRepository = {
   async fetchNewStoriesIds() {
     const res = await axios.get('https://hacker-news.firebaseio.com/v0/newstories.json');
