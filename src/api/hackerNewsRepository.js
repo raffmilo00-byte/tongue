@@ -1,13 +1,22 @@
-import axios from 'axios';
+import axios from "axios";
+
+const BASE_URL = "https://hacker-news.firebaseio.com/v0";
 
 export const HackerNewsRepository = {
   async fetchNewStoriesIds() {
-    const res = await axios.get('https://hacker-news.firebaseio.com/v0/newstories.json');
+    const res = await axios.get(`${BASE_URL}/newstories.json`);
     return res.data;
   },
 
   async fetchItem(id) {
-    const res = await axios.get('https://hacker-news.firebaseio.com/v0/item/' + id + '.json');
+    const res = await axios.get(`${BASE_URL}/item/${id}.json`);
     return res.data;
+  },
+
+  async fetchNews() {
+    const ids = await this.fetchNewStoriesIds();
+    const first10 = ids.slice(0, 10);
+    const items = await Promise.all(first10.map(id => this.fetchItem(id)));
+    return items;
   }
 };

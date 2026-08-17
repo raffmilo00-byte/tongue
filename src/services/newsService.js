@@ -1,16 +1,15 @@
-import axios from 'axios';
-import { HackerNewsRepository } from '../api/hackerNewsRepository.js';
+import { HackerNewsRepository } from "../api/hackerNewsRepository.js";
 
 export const NewsService = {
   allIds: [],
 
   setAllIds(ids) {
-    this.allIds = ids || [];
+    this.allIds = ids;
   },
 
-  async fetchPageDetails(start, size) {
-    const slice = (this.allIds || []).slice(start, start + size);
-    const promises = slice.map(id => HackerNewsRepository.fetchItem(id));
-    return Promise.all(promises);
+  async fetchPageDetails(startIndex, pageSize) {
+    const slice = this.allIds.slice(startIndex, startIndex + pageSize);
+    const items = await Promise.all(slice.map(id => HackerNewsRepository.fetchItem(id)));
+    return items;
   }
 };
