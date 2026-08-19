@@ -1,10 +1,12 @@
 import { describe, it, expect } from "vitest";
-import { getNews } from "../src/services/newsService.js";
+import { NewsService } from "../src/services/newsService.js";
 
-describe("newsService", () => {
-  it("should return an array of news", async () => {
-    const news = await getNews();
-    expect(Array.isArray(news)).toBe(true);
+describe("NewsService", () => {
+  it("should return 10 news items", async () => {
+    NewsService.setAllIds([1,2,3,4,5,6,7,8,9,10]);
+
+    const result = await NewsService.fetchPageDetails(0, 10);
+
+    expect(result.length).toBe(10);
   });
 });
-
