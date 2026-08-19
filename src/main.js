@@ -52,3 +52,8 @@ async function init() {
 
   } catch (error) {
     console.error("Errore nel caricamento:", error);
+    document.getElementById("app").innerHTML = "<p>Errore nel caricamento.</p>";
+  }
+}
+
+init();
