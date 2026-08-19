@@ -13,25 +13,17 @@ Il progetto include test automatici per verificare il corretto funzionamento del
 
 ## Struttura del progetto
 tongue/
-│
-├── src/
-│   ├── api/
-│   │   └── hackerNewsRepository.js
-│   ├── services/
-│   │   └── newsService.js
-│   ├── main.js
-│   ├── style.css
-│   └── index.html
-│
-├── tests/
-│   ├── repository.test.js
-│   ├── newsService.test.js
-│   └── pagination.test.js
-│
-├── package.json
-├── vite.config.js
-└── favicon.svg
-
+src/api/hackerNewsRepository.js
+src/services/newsService.js
+src/main.js
+src/style.css
+src/index.html
+tests/repository.test.js
+tests/newsService.test.js
+tests/pagination.test.js
+package.json
+vite.config.js
+favicon.svg
 
 Codice
 
