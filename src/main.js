@@ -1,3 +1,4 @@
+import './style.css';
 import { NewsService } from './services/newsService.js';
 import { HackerNewsRepository } from './api/hackerNewsRepository.js';
 
@@ -51,8 +52,3 @@ async function init() {
 
   } catch (error) {
     console.error("Errore nel caricamento:", error);
-    document.getElementById("app").innerHTML = "<p>Errore nel caricamento.</p>";
-  }
-}
-
-init();
