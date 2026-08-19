@@ -1,143 +1,113 @@
-# Tongue  
-Applicazione web per la consultazione delle ultime notizie pubblicate su Hacker News, sviluppata con JavaScript, Vite e Vitest. Il progetto adotta una struttura modulare che separa la logica di business, l’accesso ai dati e la presentazione, garantendo manutenibilità e chiarezza architetturale.
+Tongue – HackerNews Client
+Tongue è un’applicazione web che permette di consultare le ultime notizie pubblicate su HackerNews. Il progetto è stato sviluppato con un’architettura modulare, separando la logica di comunicazione con l’API, la gestione dei dati, la presentazione e gli asset grafici. L’interfaccia è semplice, pulita e progettata per offrire una consultazione immediata delle notizie.
 
----
+Obiettivi del progetto
+L’obiettivo principale è realizzare un client che:
 
-## Descrizione del progetto
-Tongue è una web application che consente di visualizzare in modo semplice e immediato le news più recenti provenienti da Hacker News.  
-L’applicazione effettua una chiamata alle API pubbliche, recupera gli ID delle notizie più recenti e li gestisce tramite un sistema di paginazione. Ogni elemento viene poi arricchito con una data di pubblicazione formattata e un link diretto alla fonte.
+recupera gli ID delle ultime news tramite l’API pubblica di HackerNews;
 
-Il progetto include test automatici per verificare il corretto funzionamento del repository, del service e della logica di paginazione.
+recupera i dettagli delle singole news (titolo, URL, timestamp);
 
----
+visualizza le notizie in modo ordinato e leggibile;
 
-## Struttura del progetto
-tongue/
-src/api/hackerNewsRepository.js
-src/services/newsService.js
-src/main.js
-src/style.css
-src/index.html
-tests/repository.test.js
-tests/newsService.test.js
-tests/pagination.test.js
-package.json
-vite.config.js
-favicon.svg
+implementa un sistema di caricamento progressivo tramite pulsante “Load more”;
+
+gestisce correttamente la fine della lista;
+
+effettua il deploy su Vercel;
+
+include test di base tramite Vitest.
+
+Architettura del progetto
+La struttura del progetto è organizzata come segue:
 
 Codice
+src/
+│
+├── api/
+│   └── hackerNewsRepository.js      # Comunicazione con l’API HackerNews
+│
+├── services/
+│   └── newsService.js               # Logica di business e formattazione dei dati
+│
+├── components/                      # Componenti futuri o opzionali
+│
+├── assets/
+│   └── css/
+│       └── style.css                # Foglio di stile dell’interfaccia
+│
+├── utils/                           # Funzioni di utilità
+│
+└── main.js                          # Entry point dell’applicazione
+Funzionamento
+Recupero degli ID delle news
+Il modulo HackerNewsRepository effettua una chiamata all’endpoint pubblico di HackerNews, ottenendo un array di ID relativi alle ultime notizie pubblicate.
 
----
+Recupero dei dettagli
+Il servizio NewsService utilizza gli ID per recuperare i dettagli delle singole news, formattando la data e preparando i dati per la visualizzazione.
 
-## Tecnologie utilizzate
+Visualizzazione e paginazione
+Il file main.js gestisce:
 
-- JavaScript
-- Vite
-- Vitest
-- Axios
-- HTML5 e CSS3
-- Hacker News API
+la creazione della struttura HTML;
 
----
+il rendering delle notizie in card;
 
-## API utilizzata
+il caricamento progressivo tramite pulsante “Load more”;
 
-L’applicazione utilizza gli endpoint pubblici di Hacker News:
+la disabilitazione del pulsante quando non sono presenti ulteriori notizie.
 
-- Recupero degli ID delle ultime news  
-  `https://hacker-news.firebaseio.com/v0/newstories.json`
-
-- Recupero dei dettagli di una singola news  
-  `https://hacker-news.firebaseio.com/v0/item/{id}.json`
-
----
-
-## Funzionamento dell’applicazione
-
-1. **Recupero degli ID delle news**  
-   Il repository effettua una chiamata alle API e ottiene la lista degli ID delle notizie più recenti.
-
-2. **Paginazione**  
-   Il service gestisce la lista degli ID e fornisce dieci elementi alla volta.
-
-3. **Recupero dei dettagli**  
-   Per ogni ID viene scaricato l’oggetto completo della news.
-
-4. **Formattazione della data**  
-   Il timestamp UNIX fornito dall’API viene convertito in una data leggibile.
-
-5. **Rendering dell’interfaccia**  
-   La UI mostra titolo, data di pubblicazione e link alla fonte.
-
----
-
-## Test automatici (Vitest)
-
-Il progetto include tre test principali:
-
-### Test del repository
-Verifica che il repository:
-- recuperi correttamente dieci elementi,
-- gestisca correttamente la funzione `fetchItem`,
-- utilizzi correttamente i mock delle API.
-
-### Test del service
-Verifica che il service:
-- gestisca correttamente la paginazione,
-- restituisca il numero corretto di elementi,
-- utilizzi correttamente gli ID forniti.
-
-### Test della paginazione
-Verifica la correttezza della logica di suddivisione degli elementi.
-
-Per eseguire i test:
-
-npm test
+Interfaccia grafica
+Lo stile dell’applicazione è definito nel file:
 
 Codice
+src/assets/css/style.css
+Il foglio di stile gestisce:
 
----
+layout centrato;
 
-## Installazione
+card con ombreggiatura;
 
-Clonare la repository:
+pulsante di caricamento;
 
+sfondo neutro;
+
+spaziature e leggibilità.
+
+Installazione
+Per installare il progetto in locale:
+
+bash
 git clone https://github.com/raffmilo00-byte/tongue.git
-
-Codice
-
-Installare le dipendenze:
-
+cd tongue
 npm install
-
-Codice
-
-Avviare il progetto in ambiente di sviluppo:
-
 npm run dev
+Build
+Per generare la build di produzione:
 
-Codice
+bash
+npm run build
+Test
+Il progetto include test di base tramite Vitest.
+Per eseguirli:
 
----
+bash
+npm run test
+Deploy
+Il progetto è pubblicato tramite Vercel.
 
-## Deploy
+Demo online:
+https://tongue-7bjotkzbq-raff9.vercel.app
 
-Il progetto è compatibile con:
-- Vercel
-- Netlify
-- GitHub Pages
+Screenshot
+Inserire qui uno screenshot dell’interfaccia e uno del pannello di deploy Vercel.
 
-La struttura basata su Vite consente un deploy immediato senza configurazioni aggiuntive.
+Link utili
+Repository GitHub:
+https://github.com/raffmilo00-byte/tongue
 
----
+Demo Vercel:
+https://tongue-7bjotkzbq-raff9.vercel.app
 
-## Autore
-
-Raff  
-GitHub: https://github.com/raffmilo00-byte
-
----
-
-## Licenza
-
-Il progetto è distribuito sotto licenza ISC.
+Conclusioni
+Tongue è un progetto che dimostra l’utilizzo corretto di API esterne, la gestione della paginazione, la separazione dei moduli, l’implementazione di test e la pubblicazione tramite un servizio di hosting moderno. L’applicazione è stabile, funzionante e pronta per la consegna accademica.
