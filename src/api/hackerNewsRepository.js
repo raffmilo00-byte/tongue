@@ -10,7 +10,12 @@ export const HackerNewsRepository = {
 
   async fetchItem(id) {
     const res = await axios.get(`${BASE_URL}/item/${id}.json`);
-    return res.data;
+    const item = res.data;
+
+    return {
+      ...item,
+      formattedTime: new Date(item.time * 1000).toLocaleString()
+    };
   },
 
   async fetchNews() {
