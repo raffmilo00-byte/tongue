@@ -12,7 +12,6 @@ Il progetto include test automatici per verificare il corretto funzionamento del
 ---
 
 ## Struttura del progetto
-
 tongue/
 │
 ├── src/
